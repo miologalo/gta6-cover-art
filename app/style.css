@@ -1,0 +1,125 @@
+/* Vice Cover Studio — dark neon editor chrome. All layout is plain CSS; the
+   cover itself is drawn on canvas, so the page needs no network at all. */
+* { box-sizing: border-box; }
+:root {
+  --bg: #12081f;
+  --panel: #1d0f30;
+  --panel-2: #261640;
+  --ink: #f5efe8;
+  --muted: #b9a8cc;
+  --pink: #ff2d95;
+  --cyan: #00e5ff;
+  --amber: #ffb43d;
+  --line: #3a2358;
+}
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+}
+.topbar {
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: linear-gradient(90deg, #2b103f, #4d0f4d 55%, #7a1e3f);
+  border-bottom: 3px solid var(--pink);
+}
+.brand { display: flex; gap: 14px; align-items: center; }
+.brand-mark {
+  display: grid; place-items: center;
+  width: 52px; height: 52px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--pink), var(--amber));
+  color: #160a24; font-weight: 900; font-size: 22px;
+  font-family: "Arial Black", Arial, sans-serif;
+  box-shadow: 0 0 22px rgba(255, 45, 149, .55);
+}
+.brand h1 {
+  margin: 0; font-size: 26px; letter-spacing: 1px;
+  font-family: "Arial Black", Arial, sans-serif; text-transform: uppercase;
+}
+.brand p { margin: 2px 0 0; color: #ffd7ef; font-size: 13px; }
+.steps { display: flex; gap: 8px; flex-wrap: wrap; }
+.steps span {
+  background: rgba(0,0,0,.35); border: 1px solid var(--line);
+  border-radius: 999px; padding: 6px 12px; font-size: 13px; color: var(--ink);
+}
+.steps b {
+  display: inline-grid; place-items: center; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--cyan); color: #06222b;
+  margin-right: 6px; font-size: 12px;
+}
+.app {
+  display: grid; grid-template-columns: 380px 1fr; gap: 20px;
+  padding: 20px 24px; align-items: start;
+}
+.controls { display: flex; flex-direction: column; gap: 14px; }
+.group {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 16px;
+}
+.group h2 {
+  margin: 0 0 10px; font-size: 13px; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--amber);
+}
+.group label { display: block; margin: 8px 0; font-size: 14px; }
+.group input[type="text"] {
+  width: 100%; margin-top: 4px; padding: 9px 10px;
+  background: #0f0618; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 8px; font-size: 15px;
+}
+.group input[type="range"] { width: 100%; accent-color: var(--pink); }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-row.wrap button { flex: 1 1 auto; }
+button {
+  background: var(--panel-2); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px 12px; font-size: 13px; cursor: pointer;
+}
+button:hover { border-color: var(--pink); }
+button.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+button:disabled { opacity: .4; cursor: default; }
+.file-btn {
+  display: inline-block; background: linear-gradient(135deg, var(--pink), #ff5e62);
+  color: #fff; font-weight: 700; border-radius: 8px; padding: 10px 16px;
+  cursor: pointer; margin: 0 0 8px;
+}
+.file-btn input { display: none; }
+.chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.chip {
+  background: #0f0618; border-color: var(--cyan); color: #c9f6ff;
+  font-size: 12px; padding: 5px 9px;
+}
+.hint { color: var(--muted); font-size: 12.5px; line-height: 1.5; margin: 8px 0 0; }
+.toggles { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+.toggles label { display: flex; gap: 6px; align-items: center; margin: 0; }
+.toggles input { accent-color: var(--pink); }
+.panel-tools {
+  margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line);
+  display: flex; flex-direction: column; gap: 8px;
+}
+#panel-label { font-weight: 700; color: var(--cyan); font-size: 13px; }
+.export-btn {
+  width: 100%; padding: 13px; font-size: 16px; font-weight: 800;
+  background: linear-gradient(135deg, var(--pink), var(--amber));
+  color: #1c0a24; border: none; border-radius: 10px; margin-top: 4px;
+  box-shadow: 0 0 18px rgba(255, 45, 149, .4);
+}
+.export-btn:hover { filter: brightness(1.1); }
+#status { color: var(--cyan); font-size: 13px; min-height: 18px; margin: 8px 0 0; }
+.preview-pane {
+  position: sticky; top: 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+#preview {
+  max-width: 100%; height: auto;
+  border-radius: 6px; cursor: crosshair;
+  box-shadow: 0 12px 44px rgba(0, 0, 0, .6), 0 0 0 1px var(--line);
+  background: #2b103f;
+}
+.foot { padding: 0 24px 22px; color: var(--muted); font-size: 12px; }
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .preview-pane { position: static; }
+}
